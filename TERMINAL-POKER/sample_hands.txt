@@ -1,0 +1,107 @@
+type suit = Hearts | Clubs | Diamonds | Spades
+
+type card = {
+  v:int;
+  s:suit;
+}
+
+let straight_1 = 
+[{v=3; s=Hearts}; {v=9; s=Hearts}; {v=5; s=Hearts}; {v=7; s=Hearts}; {v=8; s=Hearts}; {v=12; s=Hearts}; {v=6; s=Hearts}]
+
+let flush_4 = 
+[{v=3; s=Diamonds}; {v=9; s=Hearts}; {v=5; s=Hearts}; {v=7; s=Hearts}; {v=8; s=Hearts}; {v=12; s=Hearts}; {v=6; s=Hearts}]
+
+let flush_5 = 
+[{v=3; s=Diamonds}; {v=9; s=Diamonds}; {v=5; s=Diamonds}; {v=7; s=Hearts}; {v=8; s=Hearts}; {v=12; s=Hearts}; {v=6; s=Hearts}]
+
+let flush_5 = 
+[{v=9; s=Spades}; {v=9; s=Diamonds}; {v=9; s=Hearts}; {v=7; s=Hearts}; {v=8; s=Hearts}; {v=12; s=Hearts}; {v=6; s=Hearts}]
+
+let card_list = [{v=2; s=Diamonds};{v=4; s=Diamonds};{v=3; s=Diamonds};{v=2; s=Diamonds};{v=1; s=Diamonds};{v=7; s=Diamonds};{v=6; s=Hearts};]
+let four_of_kind = [{v=2; s=Diamonds};{v=2; s=Diamonds};{v=3; s=Diamonds};{v=2; s=Diamonds};{v=1; s=Diamonds};{v=7; s=Diamonds};{v=2; s=Hearts};]
+
+let full_house = [{v=2; s=Diamonds};{v=4; s=Diamonds};{v=2; s=Hearts};{v=4; s=Diamonds};{v=2; s=Spades};{v=4; s=Spades};]
+
+let three_of_kind = [{v=2; s=Diamonds};{v=4; s=Diamonds};{v=2; s=Hearts};{v=3; s=Diamonds};{v=2; s=Spades};{v=7; s=Spades};]
+
+#load "model.cmo";;
+#load "roundwinner.cmo";;
+#load "model.cmo";;
+
+open Model;;
+open Roundwinner;;
+open Ai;;
+
+let a = [{value=2; suit=Diamonds}; {value=2; suit=Diamonds};]
+let b = [{value=2; suit=Diamonds}; {value=2; suit=Diamonds};]
+let x = [a;b]
+let worse_two_pair = [{value=2; suit=Diamonds}; {value=2; suit=Diamonds}; {value=4; suit=Diamonds}; {value=4; suit=Diamonds}; {value=1; suit=Diamonds}; {value=10; suit=Diamonds};]
+let worst_two_pair = [{value=2; suit=Diamonds}; {value=2; suit=Diamonds}; {value=4; suit=Diamonds}; {value=4; suit=Diamonds}; {value=1; suit=Diamonds}; {value=9; suit=Diamonds};]
+let best_two_pair = [{value=3; suit=Diamonds}; {value=3; suit=Diamonds}; {value=4; suit=Diamonds}; {value=4; suit=Diamonds}; {value=1; suit=Diamonds}; {value=9; suit=Diamonds};]
+let r = {
+  name = "rodrigo";
+  cards = best_two_pair;
+  chips = 100;
+  amt_bet = 0;
+  folded = false;
+  player_type = true;
+  next = 1;
+}
+
+let j = {
+  name = "jackson";
+  cards = worse_two_pair;
+  chips = 100;
+  amt_bet = 0;
+  folded = false;
+  player_type = true;
+  next = 1;
+}
+
+let t = {
+  name = "tristan";
+  cards = worst_two_pair;
+  chips = 100;
+  amt_bet = 0;
+  folded = false;
+  player_type = true;
+  next = 1;
+}
+
+let c = {
+  name = "cynoc";
+  cards = best_two_pair;
+  chips = 100;
+  amt_bet = 0;
+  folded = false;
+  player_type = true;
+  next = 1;
+}
+
+let players = [r;j;c;t]
+
+let full_deck = [
+  {v=15;s=Hearts};{v=15;s=Clubs};{v=15;s=Diamonds};{v=15;s=Spades};
+  {v=14;s=Hearts};{v=14;s=Clubs};{v=14;s=Diamonds};{v=14;s=Spades};
+  {v=13;s=Hearts};{v=13;s=Clubs};{v=13;s=Diamonds};{v=13;s=Spades};
+  {v=12;s=Hearts};{v=12;s=Clubs};{v=12;s=Diamonds};{v=12;s=Spades};
+  {v=11;s=Hearts};{v=11;s=Clubs};{v=11;s=Diamonds};{v=11;s=Spades};
+  {v=10;s=Hearts};{v=10;s=Clubs};{v=10;s=Diamonds};{v=10;s=Spades};
+  {v=9;s=Hearts};{v=9;s=Clubs};{v=9;s=Diamonds};{v=9;s=Spades};
+  {v=8;s=Hearts};{v=8;s=Clubs};{v=8;s=Diamonds};{v=8;s=Spades};
+  {v=7;s=Hearts};{v=7;s=Clubs};{v=7;s=Diamonds};{v=7;s=Spades};
+  {v=6;s=Hearts};{v=6;s=Clubs};{v=6;s=Diamonds};{v=6;s=Spades};
+  {v=5;s=Hearts};{v=5;s=Clubs};{v=5;s=Diamonds};{v=5;s=Spades};
+  {v=4;s=Hearts};{v=4;s=Clubs};{v=4;s=Diamonds};{v=4;s=Spades};
+  {v=3;s=Hearts};{v=3;s=Clubs};{v=3;s=Diamonds};{v=3;s=Spades};
+  {v=2;s=Hearts};{v=2;s=Clubs};{v=2;s=Diamonds};{v=2;s=Spades};
+]
+
+let g1 = {
+  pot = 10000;
+  players = players;
+  table = [];
+  deck = [];
+  min_bet = 0;
+  current_player = Player c;
+}

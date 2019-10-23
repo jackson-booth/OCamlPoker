@@ -1,0 +1,34 @@
+Notes
+
+1. Can you match having bet more than min_bet?
+
+2. (* OLD IMPLEMENTATION OF INSTANTIATE
+
+let players = List.map (fun x -> {
+      name = (fst x);
+      cards = [];
+      amt_bet = 0;
+      chips = (snd p);
+      folded = false;
+      is_person = (snd x);
+      next = -1;
+    }) (fst p)
+in
+(*[link_players ]*)
+let rec link_players (n:int) (p_list:player list) (acc:player list)
+  : player list =
+  if n = -1 then List.rev acc
+  else let x = List.nth p_list n in
+    let x = {x with next = n+1} in
+    link_players (n-1) (p_list) (x::acc)
+in
+(*[partition_last l acc] is [q,p] where [q] a list of all but the last element of [l] and [p] is a list of the last element of [l]*)
+let rec partition_last (l:'a list) (acc:'a list) : 'a list * 'a list =
+  match l with
+  | [] -> failwith "shit broke"
+  | h::[] -> (List.rev acc),[h]
+  | h::t -> partition_last t (h::acc)
+in
+let first_players,last_player = partition_last players [] in
+let n = List.length first_players in
+let players = link_players (n-1) first_players last_player in *)
